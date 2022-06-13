@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npx nodemon ./bin/www"
+    "start": "node app.js"
   },
   "engines": {
     "node": "16.15.0"
