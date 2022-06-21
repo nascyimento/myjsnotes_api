@@ -19,7 +19,8 @@ router.get('/', withAuth, async (req, res) => {
         let notes = await Note.find({ userId: req.user._id });
         res.json(notes);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to get notes' });
+        console.log(error)
+        res.status(500).json({ error: error.errors });
     }
 });
 
@@ -27,8 +28,8 @@ router.get('/search', withAuth, async (req, res) => {
     try {
         let { query } = req.query;
         let notes = await Note
-        .find({ userId: req.user._id })
-        .find({ $text: { $search: query } });
+            .find({ userId: req.user._id })
+            .find({ $text: { $search: query } });
         res.json(notes);
     } catch (error) {
         res.status(500).json({ error: error });
