@@ -16,10 +16,9 @@ router.post('/', withAuth, async (req, res) => {
 
 router.get('/', withAuth, async (req, res) => {
     try {
-        let notes = await Note.find({ userId: req.user._id });
+        let notes = await Note.find({ userId: req.user._id }).sort({ updatedAt: -1 });
         res.json(notes);
     } catch (error) {
-        console.log(error)
         res.status(500).json({ error: error.errors });
     }
 });
@@ -56,7 +55,6 @@ router.put('/:id', withAuth, async (req, res) => {
         if (isOwner(req.user, noteToUpdate)) {
             let noteUpdates = req.body;
             let updatedNote = await Note.findByIdAndUpdate(req.params.id, noteUpdates, { new: true });
-            console.log(updatedNote)
             res.status(200).json(updatedNote);
         } else {
             res.status(403).json({ error: 'Permission denied' });
